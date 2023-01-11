@@ -1,47 +1,49 @@
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
-import { Entity } from 'typeorm/decorator/entity/Entity';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  name: string;
+  @Column({ length: 100, nullable: false })
+  fullName: string;
 
-  @Column()
-  photo: string;
+  @Column({ length: 255, nullable: true })
+  photoUrl: string;
 
-  @Column()
+  @Column({ length: 255, unique: true, nullable: false })
   email: string;
 
-  @Column()
+  @Column({ length: 255, nullable: false })
   password: string;
 
-  @Column()
+  @Column({ length: 20, nullable: true })
   phone: string;
+}
 
-  @Column()
-  address: string;
+@Entity()
+export class Address {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-  @Column()
-  cep: string;
+  @Column({ length: 8, nullable: false })
+  zipCode: string;
 
-  @Column()
+  @Column({ length: 255, nullable: false })
   street: string;
 
-  @Column()
+  @Column({ length: 20, nullable: false })
   number: string;
 
-  @Column()
+  @Column({ length: 100, nullable: false })
   neighborhood: string;
 
-  @Column()
+  @Column({ length: 100, nullable: false })
   city: string;
 
-  @Column()
+  @Column({ length: 2, nullable: false })
   state: string;
 
-  @Column()
+  @Column({ length: 100, nullable: true })
   complement: string;
 }
