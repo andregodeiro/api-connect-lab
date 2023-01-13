@@ -19,39 +19,24 @@ export class CreateDevicesTable1673588893301 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'photourl',
-            type: 'varchar',
-            isNullable: true,
-          },
-          {
             name: 'type',
             type: 'varchar',
             isNullable: false,
           },
           {
-            name: 'madeby',
+            name: 'madeBy',
             type: 'varchar',
             isNullable: false,
           },
           {
-            name: 'virtual_id',
-            type: 'varchar',
-            isNullable: false,
-          },
-          {
-            name: 'ip_address',
-            type: 'varchar',
-            isNullable: false,
-          },
-          {
-            name: 'mac_address',
-            type: 'varchar',
-            isNullable: false,
-          },
-          {
-            name: 'signal',
+            name: 'photoUrl',
             type: 'varchar',
             isNullable: true,
+          },
+          {
+            name: 'info',
+            type: 'json',
+            isNullable: false,
           },
         ],
       }),

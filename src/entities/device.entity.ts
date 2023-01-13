@@ -1,6 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  JoinColumn,
+  OneToOne,
+} from 'typeorm';
+import { Info } from './device-info.entity';
 
-@Entity('Device')
+@Entity()
 export class Device {
   @PrimaryGeneratedColumn()
   _id: number;
@@ -9,23 +16,15 @@ export class Device {
   name: string;
 
   @Column()
-  photourl: string;
-
-  @Column()
   type: string;
 
   @Column()
-  madeby: string;
+  madeBy: string;
 
   @Column()
-  virtual_id: string;
+  photoUrl: string;
 
-  @Column()
-  ip_address: string;
-
-  @Column()
-  mac_address: string;
-
-  @Column()
-  signal: string;
+  @OneToOne((type) => Info, (info) => info.device)
+  @JoinColumn()
+  info: Info;
 }

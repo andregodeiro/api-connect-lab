@@ -5,13 +5,23 @@ import { UsersModule } from './module/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthenticationModule } from './module/auth-login.module';
 import 'dotenv/config.js';
-import * as ormconfig from './config/ormconfig';
 import { DevicesModule } from './module/devices.module';
 
 @Module({
   imports: [
     UsersModule,
-    TypeOrmModule.forRoot(ormconfig),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      synchronize: true,
+      autoLoadEntities: true,
+      migrations: ['src/migration/**/*.ts'],
+      migrationsRun: false,
+    }),
     AuthenticationModule,
     DevicesModule,
   ],
