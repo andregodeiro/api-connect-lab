@@ -28,9 +28,14 @@ export class DevicesService {
     info.signal = dto.signal;
     await this.infoRepository.save(info);
 
+    device.info = info;
+    await this.deviceRepository.save(device);
+
     return 'Dispositivo criado com sucesso!';
   }
   async findAll(): Promise<Device[]> {
-    return await this.deviceRepository.find();
+    return await this.deviceRepository.find({
+      relations: ['info'],
+    });
   }
 }

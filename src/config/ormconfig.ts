@@ -1,5 +1,6 @@
 import { ConnectionOptions } from 'typeorm';
-import { User, Address } from '../entities/user.entity';
+import { User } from '../entities/user.entity';
+import { Address } from 'src/entities/user-address.entity';
 import 'dotenv/config.js';
 import { Device } from '../entities/device.entity';
 

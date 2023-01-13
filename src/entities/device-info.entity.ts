@@ -15,6 +15,6 @@ export class Info {
   @Column()
   signal: string;
 
-  @OneToOne((type) => Device, (device) => device.info)
+  @OneToOne(() => Device, (device) => device.info)
   device: Device;
 }

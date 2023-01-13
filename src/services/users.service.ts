@@ -1,7 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOneOptions } from 'typeorm';
-import { User, Address } from '../entities/user.entity';
+import { User } from '../entities/user.entity';
+import { Address } from 'src/entities/user-address.entity';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { ChangePasswordDto } from '../dto/chage-password.dto';
 import * as bcrypt from 'bcrypt';
@@ -48,6 +49,9 @@ export class UsersService {
     address.state = dto.state;
     address.complement = dto.complement;
     await this.addressRepository.save(address);
+
+    user.address = address;
+    await this.userRepository.save(user);
 
     return 'Usuário criado com sucesso!';
   }

@@ -24,7 +24,10 @@ export class Device {
   @Column()
   photoUrl: string;
 
-  @OneToOne((type) => Info, (info) => info.device)
+  @OneToOne(() => Info, (info) => info.device, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   info: Info;
 }
