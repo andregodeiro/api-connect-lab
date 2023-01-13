@@ -1,6 +1,7 @@
 import { ConnectionOptions } from 'typeorm';
-import { User, Address } from './src/entities/user.entity';
+import { User, Address } from '../entities/user.entity';
 import 'dotenv/config.js';
+import { Device } from '../entities/device.entity';
 
 const config: ConnectionOptions = {
   type: 'postgres',
@@ -9,9 +10,9 @@ const config: ConnectionOptions = {
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  synchronize: true,
-  entities: [User, Address],
-  migrations: [],
+  synchronize: false,
+  entities: [User, Address, Device],
+  migrations: ['src/migration/**/*.ts'],
 };
 
 export = config;
