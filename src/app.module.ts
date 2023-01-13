@@ -3,12 +3,17 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './module/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './module/auth-login.module';
+
+import { AuthenticationModule } from './module/auth-login.module';
 import 'dotenv/config.js';
 import ormconfig = require('../ormconfig');
 
 @Module({
-  imports: [UsersModule, TypeOrmModule.forRoot(ormconfig), AuthModule],
+  imports: [
+    UsersModule,
+    TypeOrmModule.forRoot(ormconfig),
+    AuthenticationModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

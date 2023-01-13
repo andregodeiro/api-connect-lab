@@ -9,4 +9,4 @@ import { User, Address } from '../entities/user.entity';
   providers: [AuthService],
   controllers: [AuthController],
 })
-export class AuthModule {}
+export class AuthenticationModule {}

@@ -4,6 +4,11 @@ import { UsersService } from 'src/services/users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User, Address } from 'src/entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+
+export const passportModule = PassportModule.register({
+  defaultStrategy: 'local',
+});
 
 @Module({
   imports: [
@@ -12,6 +17,7 @@ import { JwtModule } from '@nestjs/jwt';
       secretOrPrivateKey: 'secretKey',
       signOptions: { expiresIn: '60s' },
     }),
+    passportModule,
   ],
   controllers: [UsersController],
   providers: [UsersService],

@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, FindOneOptions } from 'typeorm';
 import { User, Address } from '../entities/user.entity';
 import { CreateUserDto } from '../dto/create-user.dto';
+import { ChangePasswordDto } from '../dto/chage-password.dto';
 import * as bcrypt from 'bcrypt';
 import { validate } from 'class-validator';
 
@@ -49,5 +50,44 @@ export class UsersService {
     await this.addressRepository.save(address);
 
     return 'Usuário criado com sucesso!';
+  }
+
+  async changePassword(changePasswordDto: ChangePasswordDto): Promise<void> {
+    const { email, oldPassword, newPassword, newPasswordConfirm } =
+      changePasswordDto;
+
+    // checa se o e-mail existe no db
+    const options: FindOneOptions = {
+      where: {
+        email: email,
+      },
+    };
+    const user = await this.userRepository.findOne(options);
+
+    // checa se a senha confere no db
+    const isPasswordMatched = await bcrypt.compare(oldPassword, user.password);
+    if (!isPasswordMatched) {
+      throw new HttpException(
+        'Sua senha antiga não confere!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    // checa se a senha nova confere com a confirmação de senha
+    if (newPassword !== newPasswordConfirm) {
+      throw new HttpException(
+        'A nova senha não confere!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    // hash newPassword
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+    // atualiza a senha no db
+    await this.userRepository.update(
+      { email },
+      { password: hashedNewPassword },
+    );
   }
 }

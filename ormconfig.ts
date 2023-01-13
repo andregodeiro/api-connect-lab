@@ -2,7 +2,7 @@ import { ConnectionOptions } from 'typeorm';
 import { User, Address } from './src/entities/user.entity';
 import 'dotenv/config.js';
 
-const ormconfig: ConnectionOptions = {
+const config: ConnectionOptions = {
   type: 'postgres',
   host: process.env.DB_HOST,
   port: +process.env.DB_PORT,
@@ -11,6 +11,7 @@ const ormconfig: ConnectionOptions = {
   database: process.env.DB_NAME,
   synchronize: true,
   entities: [User, Address],
+  migrations: [],
 };
 
-export = ormconfig;
+export = config;
