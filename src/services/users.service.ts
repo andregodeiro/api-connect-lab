@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOneOptions } from 'typeorm';
 import { User } from '../entities/user.entity';
-import { Address } from 'src/entities/user-address.entity';
+import { Address } from '../entities/user-address.entity';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { ChangePasswordDto } from '../dto/chage-password.dto';
 import * as bcrypt from 'bcrypt';
@@ -93,5 +93,16 @@ export class UsersService {
       { email },
       { password: hashedNewPassword },
     );
+  }
+
+  async getProfile(userId: number): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['address'],
+    });
+    if (!user.phone) {
+      user.phone = 'N/A';
+    }
+    return user;
   }
 }

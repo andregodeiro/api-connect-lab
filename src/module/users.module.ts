@@ -2,13 +2,15 @@ import { Module } from '@nestjs/common';
 import { UsersController } from 'src/controllers/users.controller';
 import { UsersService } from 'src/services/users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/entities/user.entity';
-import { Address } from 'src/entities/user-address.entity';
+import { User } from '../entities/user.entity';
+import { Address } from '../entities/user-address.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from '../strategies/jwt.strategy';
+import { AuthService } from '../services/authentication.service';
 
 export const passportModule = PassportModule.register({
-  defaultStrategy: 'local',
+  defaultStrategy: 'jwt',
 });
 
 @Module({
@@ -21,6 +23,6 @@ export const passportModule = PassportModule.register({
     passportModule,
   ],
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [UsersService, JwtStrategy, AuthService],
 })
 export class UsersModule {}
