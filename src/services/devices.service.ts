@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Device } from '../entities/device.entity';
 import { Info } from '../entities/device-info.entity';
 import { CreateDeviceDto } from '../dto/create-device.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UserDevices } from 'src/entities/user-devices.entity';
+import { User } from 'src/entities/user.entity';
 
 @Injectable()
 export class DevicesService {
@@ -12,6 +14,10 @@ export class DevicesService {
     private readonly deviceRepository: Repository<Device>,
     @InjectRepository(Info)
     private readonly infoRepository: Repository<Info>,
+    @InjectRepository(UserDevices)
+    private readonly userDevicesRepository: Repository<UserDevices>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   async create(dto: CreateDeviceDto): Promise<string> {
@@ -33,9 +39,38 @@ export class DevicesService {
 
     return 'Dispositivo criado com sucesso!';
   }
+
   async findAll(): Promise<Device[]> {
     return await this.deviceRepository.find({
       relations: ['info'],
     });
+  }
+
+  async linkDeviceToUser(
+    userId: number,
+    deviceId: number,
+    location: string,
+    status: string,
+  ): Promise<string> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado!');
+    }
+
+    const device = await this.deviceRepository.findOne({
+      where: { _id: deviceId },
+    });
+    if (!device) {
+      throw new NotFoundException('Dispositivo não encontrado!');
+    }
+
+    const userDevice = new UserDevices();
+    userDevice.user = user;
+    userDevice.device = device;
+    userDevice.location = location;
+    userDevice.status = status;
+    await this.userDevicesRepository.save(userDevice);
+
+    return 'Dispositivo vinculado com sucesso';
   }
 }
