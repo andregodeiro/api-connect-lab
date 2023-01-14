@@ -4,6 +4,7 @@ import { UsersService } from 'src/services/users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { Address } from '../entities/user-address.entity';
+import { UserDevices } from 'src/entities/user-devices.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from '../strategies/jwt.strategy';
@@ -15,7 +16,7 @@ export const passportModule = PassportModule.register({
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Address]),
+    TypeOrmModule.forFeature([User, Address, UserDevices]),
     JwtModule.register({
       secretOrPrivateKey: 'secretKey',
       signOptions: { expiresIn: '60s' },

@@ -4,8 +4,10 @@ import {
   PrimaryGeneratedColumn,
   JoinColumn,
   OneToOne,
+  ManyToMany,
 } from 'typeorm';
 import { Info } from './device-info.entity';
+import { User } from './user.entity';
 
 @Entity()
 export class Device {
@@ -30,4 +32,7 @@ export class Device {
   })
   @JoinColumn()
   info: Info;
+
+  @ManyToMany(() => User, (user) => user.devices)
+  users: User[];
 }

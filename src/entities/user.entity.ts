@@ -4,7 +4,10 @@ import {
   PrimaryGeneratedColumn,
   OneToOne,
   JoinColumn,
+  JoinTable,
+  OneToMany,
 } from 'typeorm';
+import { Device } from './device.entity';
 import { Address } from './user-address.entity';
 
 @Entity()
@@ -30,4 +33,12 @@ export class User {
   @OneToOne(() => Address, (address) => address.user)
   @JoinColumn()
   address: Address;
+
+  @OneToMany(() => Device, (device) => device.users, {
+    cascade: true,
+  })
+  @JoinTable({
+    name: 'user_devices',
+  })
+  devices: Device[];
 }
