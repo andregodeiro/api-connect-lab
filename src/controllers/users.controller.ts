@@ -4,12 +4,14 @@ import { AuthService } from '../services/authentication.service';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { ChangePasswordDto } from '../dto/chage-password.dto';
+import { DevicesService } from 'src/services/devices.service';
 
 @Controller('users')
 export class UsersController {
   constructor(
     private readonly userService: UsersService,
     private readonly authService: AuthService,
+    private readonly devicesService: DevicesService,
   ) {}
 
   @Post()
@@ -28,5 +30,12 @@ export class UsersController {
   @Post('change-password')
   async changePassword(@Body() changePasswordDto: ChangePasswordDto) {
     return await this.userService.changePassword(changePasswordDto);
+  }
+
+  @Get('devices')
+  @UseGuards(AuthGuard('jwt'))
+  async getDevices(@Req() req) {
+    const devices = await this.devicesService.getDevices(req.user.id);
+    return devices;
   }
 }

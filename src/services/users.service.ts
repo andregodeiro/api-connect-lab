@@ -7,6 +7,7 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { ChangePasswordDto } from '../dto/chage-password.dto';
 import * as bcrypt from 'bcrypt';
 import { validate } from 'class-validator';
+import { UserDevices } from 'src/entities/user-devices.entity';
 
 @Injectable()
 export class UsersService {
@@ -15,6 +16,8 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(Address)
     private readonly addressRepository: Repository<Address>,
+    @InjectRepository(UserDevices)
+    private readonly userDevicesRepository: Repository<UserDevices>,
   ) {}
 
   async create(dto: CreateUserDto): Promise<string> {

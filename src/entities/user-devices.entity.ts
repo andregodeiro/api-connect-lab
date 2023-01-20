@@ -21,9 +21,9 @@ export class UserDevices {
   @JoinColumn({ name: 'device_id' })
   device: Device;
 
-  @Column()
+  @Column({ name: 'location' })
   location: string;
 
-  @Column()
+  @Column({ name: 'status' })
   status: string;
 }

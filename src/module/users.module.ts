@@ -9,6 +9,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from '../strategies/jwt.strategy';
 import { AuthService } from '../services/authentication.service';
+import { DevicesService } from 'src/services/devices.service';
+import { Device } from 'src/entities/device.entity';
+import { Info } from 'src/entities/device-info.entity';
 
 export const passportModule = PassportModule.register({
   defaultStrategy: 'jwt',
@@ -16,7 +19,7 @@ export const passportModule = PassportModule.register({
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Address, UserDevices]),
+    TypeOrmModule.forFeature([User, Address, UserDevices, Device, Info]),
     JwtModule.register({
       secretOrPrivateKey: 'secretKey',
       signOptions: { expiresIn: '60s' },
@@ -24,6 +27,6 @@ export const passportModule = PassportModule.register({
     passportModule,
   ],
   controllers: [UsersController],
-  providers: [UsersService, JwtStrategy, AuthService],
+  providers: [UsersService, JwtStrategy, AuthService, DevicesService],
 })
 export class UsersModule {}

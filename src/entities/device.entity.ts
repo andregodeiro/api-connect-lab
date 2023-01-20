@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Entity,
   Column,
@@ -12,6 +13,7 @@ import { User } from './user.entity';
 @Entity()
 export class Device {
   @PrimaryGeneratedColumn()
+  @Exclude()
   _id: number;
 
   @Column()
