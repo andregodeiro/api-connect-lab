@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Entity,
   Column,
@@ -25,6 +26,7 @@ export class User {
   email: string;
 
   @Column({ length: 255, nullable: false })
+  @Exclude()
   password: string;
 
   @Column({ length: 20, nullable: true })
