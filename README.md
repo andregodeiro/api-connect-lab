@@ -1,4 +1,4 @@
-<p align="center"><a href="https://imgur.com/mV8Bhni"><img src="https://i.imgur.com/mV8Bhni.png" title="source: imgur.com" /></a></p>
+
 
 ## Índice
 
