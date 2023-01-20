@@ -1,4 +1,6 @@
 
+<p align="center"><a href="https://imgur.com/vqDdexu"><img src="https://i.imgur.com/vqDdexu.png" title="source: imgur.com" /></a></p>
+
 
 ## Índice
 
@@ -78,29 +80,10 @@ connect-lab/
 
 ## 💻 Instalação
 
-A aplicação possui dois componentes, o FrontEnd desenvolvido em [Vue.js](https://vuejs.org/) e o BackEnd desenvolvido em [Node.js](https://nodejs.org/en/).
 
-Para que tudo funcione, é necessário instalar primeiramente o BackEnd, pois assim o FrontEnd terá dados para consumir e serem devidamente exibidos.
-
-#### Instalação do BackEnd
-
-- Acesse a pasta `./teste-tecnico-cf/backend`;
+- Acesse a pasta `./connect-lab`;
 - Instalar a aplicação utilizando o comando `npm install`;
 - O processo não deve retornar erros. `Warns` *(Avisos)* não impedem seu funcionamento;
-- Rodar a aplicação com `npm start`;
--  Esse aplicativo requer, **excepcionalmente**, um arquivo `.env`, que deve ser inserido na raiz do projeto (`./teste-tecnico-cf/backend`); 
-    - Neste arquivo deve-se ser inserido as seguintes variáveis de uma banco de dados SQL:
-        -  DB_HOST='nome do Host'
-        -  DB_USER='user de acesso ao banco'
-        -  DB_PASSWORD='insira o password de acesso ao banco'
-        -  DB_NAME=cashforce_v3 //exemplo - nome do schema
-        -  DB_PORT=3030 // porta padrão. caso alterada, alterar também no módulo de frontend, no caminho `./teste-tecnico-cf/frontend/src/store/actions.js`
-
-#### Instalação do FrontEnd
-
-- Acesse a pasta `./teste-tecnico-cf/frontend`;
-- Instalar a aplicação utilizando o comando `npm install`;
-- O processo não deve retornar erros. `Warns` *(Avisos)* não impedem seu funcionamento;
-- Rodar a aplicação com `npm run dev`;
-- Por padrão, essa aplicação funciona a partir da porta `5173`;
-
+- Rodar a aplicação com `npm start run:dev`;
+- Esse aplicativo requer, **excepcionalmente**, um arquivo `.env`, que deve ser inserido na raiz do projeto (`./connect-lab`); 
+- Existe um aquivo de exemplo na raiz do projeto nomeado de `.example.env`, que deve ser levado como base para a criação do arquivo .env utilizado na aplicação;
