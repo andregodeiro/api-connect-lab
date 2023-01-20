@@ -132,12 +132,21 @@ export class DevicesService {
   //   });
   // }
 
-  async getDevices(userId: number): Promise<UserDevices[] | undefined> {
-    return this.userDevicesRepository
+  async getDevices(
+    userId: number,
+    location?: string,
+  ): Promise<UserDevices[] | undefined> {
+    const queryBuilder = this.userDevicesRepository
       .createQueryBuilder('user_devices')
       .leftJoinAndSelect('user_devices.device', 'device')
       .leftJoinAndSelect('device.info', 'info')
-      .where('user_devices.user_id = :userId', { userId: userId })
-      .getMany();
+      .where('user_devices.user_id = :userId', { userId: userId });
+    if (location) {
+      queryBuilder.andWhere('upper(user_devices.location) = upper(:location)', {
+        location: location,
+      });
+    }
+
+    return queryBuilder.getMany();
   }
 }

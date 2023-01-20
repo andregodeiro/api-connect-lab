@@ -1,4 +1,12 @@
-import { Controller, Post, Body, UseGuards, Get, Req } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  Get,
+  Req,
+  Query,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from '../services/authentication.service';
 import { UsersService } from '../services/users.service';
@@ -34,8 +42,11 @@ export class UsersController {
 
   @Get('devices')
   @UseGuards(AuthGuard('jwt'))
-  async getDevices(@Req() req) {
-    const devices = await this.devicesService.getDevices(req.user.userId);
+  async getDevices(@Req() req, @Query('location') location?: string) {
+    const devices = await this.devicesService.getDevices(
+      req.user.userId,
+      location,
+    );
     return devices;
   }
 }
