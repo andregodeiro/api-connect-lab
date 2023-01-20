@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Param } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { LinkDeviceDto } from 'src/dto/link-device.dto';
 import { CreateDeviceDto } from '../dto/create-device.dto';
@@ -12,6 +12,11 @@ export class DevicesController {
   @Get()
   async findAll(): Promise<Device[]> {
     return await this.devicesService.findAll();
+  }
+
+  @Get('/:id')
+  async getById(@Param('id') id: number) {
+    return await this.devicesService.getById(id);
   }
 
   @Post()

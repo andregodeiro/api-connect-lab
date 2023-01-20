@@ -46,6 +46,14 @@ export class DevicesService {
     });
   }
 
+  async getById(id: number): Promise<Device> {
+    return await this.deviceRepository
+      .createQueryBuilder('device')
+      .leftJoinAndSelect('device.info', 'info')
+      .where('_id = :id', { id })
+      .getOne();
+  }
+
   async linkDeviceToUser(
     userId: number,
     deviceId: number,
@@ -73,40 +81,6 @@ export class DevicesService {
 
     return 'Dispositivo vinculado com sucesso';
   }
-
-  // async getDevices(
-  //   userId: number,
-  //   location?: string,
-  // ): Promise<{ device: Device; status: string; local: string }> {
-  //   const options: FindOneOptions<UserDevices> = {
-  //     relations: ['device', 'device.info'],
-  //   };
-  //   options.where = Object.assign(
-  //     { user_id: userId },
-  //     location ? { location: Like(`%${location}%`) } : {},
-  //   );
-  //   const userDevice = await this.userDevicesRepository.findOne(options);
-  //   return {
-  //     device: userDevice.device,
-  //     status: userDevice.status,
-  //     local: userDevice.location,
-  //   };
-  // }
-
-  // async getDevices(
-  //   userId: number,
-  // ): Promise<{ device: Device; status: string; location: string }> {
-  //   const options: FindOneOptions<UserDevices> = {
-  //     where: { user_id: userId } as FindOneOptions<UserDevices>['where'],
-  //     relations: ['device', 'device.info'],
-  //   };
-  //   const userDevice = await this.userDevicesRepository.findOne(options);
-  //   return {
-  //     device: userDevice.device,
-  //     status: userDevice.status,
-  //     location: userDevice.location,
-  //   };
-  // }
 
   async getDevices(
     userId: number,
