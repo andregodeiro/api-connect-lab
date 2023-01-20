@@ -6,6 +6,7 @@ import {
   Get,
   Req,
   Query,
+  Param,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from '../services/authentication.service';
@@ -48,5 +49,11 @@ export class UsersController {
       location,
     );
     return devices;
+  }
+
+  @Get('devices/:id')
+  @UseGuards(AuthGuard('jwt'))
+  async detailDevice(@Param('id') id: number) {
+    return this.devicesService.detailDevice(id);
   }
 }

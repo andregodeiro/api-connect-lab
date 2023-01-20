@@ -108,30 +108,6 @@ export class DevicesService {
   //   };
   // }
 
-  // async getDevices(
-  //   userId: number,
-  // ): Promise<Array<{ device: Device; status: string; location: string }>> {
-  //   const options: FindManyOptions<UserDevices> = {
-  //     where: { user_id: userId },
-  //     relations: ['device'],
-  //     join: {
-  //       alias: 'userDevices',
-  //       leftJoin: {
-  //         device: 'userDevices.device',
-  //       },
-  //     },
-  //   };
-  //   const userDevices = await this.userDevicesRepository.find(options);
-  //   console.log(userId);
-  //   return userDevices.map((userDevice) => {
-  //     return {
-  //       device: userDevice.device,
-  //       status: userDevice.status,
-  //       location: userDevice.location,
-  //     };
-  //   });
-  // }
-
   async getDevices(
     userId: number,
     location?: string,
@@ -148,5 +124,14 @@ export class DevicesService {
     }
 
     return queryBuilder.getMany();
+  }
+
+  async detailDevice(id: number): Promise<UserDevices> {
+    return await this.userDevicesRepository
+      .createQueryBuilder('user_devices')
+      .leftJoinAndSelect('user_devices.device', 'device')
+      .leftJoinAndSelect('device.info', 'info')
+      .where('user_devices.id = :id', { id })
+      .getOne();
   }
 }
