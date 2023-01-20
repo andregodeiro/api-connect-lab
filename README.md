@@ -84,6 +84,6 @@ connect-lab/
 - Acesse a pasta `./connect-lab`;
 - Instalar a aplicação utilizando o comando `npm install`;
 - O processo não deve retornar erros. `Warns` *(Avisos)* não impedem seu funcionamento;
-- Rodar a aplicação com `npm start run:dev`;
+- Rodar a aplicação com `npm run start:dev`;
 - Esse aplicativo requer, **excepcionalmente**, um arquivo `.env`, que deve ser inserido na raiz do projeto (`./connect-lab`); 
 - Existe um aquivo de exemplo na raiz do projeto nomeado de `.example.env`, que deve ser levado como base para a criação do arquivo .env utilizado na aplicação;
