@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Device } from '../entities/device.entity';
 import { Info } from '../entities/device-info.entity';
 import { CreateDeviceDto } from '../dto/create-device.dto';
-import { FindOneOptions, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserDevices } from 'src/entities/user-devices.entity';
 import { User } from 'src/entities/user.entity';
@@ -74,33 +74,70 @@ export class DevicesService {
     return 'Dispositivo vinculado com sucesso';
   }
 
-  async getDevices(
-    userId: number,
-  ): Promise<{ device: Device; status: string; local: string }> {
-    const options: FindOneOptions<UserDevices> = {
-      where: { user_id: userId } as FindOneOptions<UserDevices>['where'],
-      relations: ['device', 'device.info'],
-    };
-    const userDevice = await this.userDevicesRepository.findOne(options);
-    return {
-      device: userDevice.device,
-      status: userDevice.status,
-      local: userDevice.location,
-    };
-  }
+  // async getDevices(
+  //   userId: number,
+  //   location?: string,
+  // ): Promise<{ device: Device; status: string; local: string }> {
+  //   const options: FindOneOptions<UserDevices> = {
+  //     relations: ['device', 'device.info'],
+  //   };
+  //   options.where = Object.assign(
+  //     { user_id: userId },
+  //     location ? { location: Like(`%${location}%`) } : {},
+  //   );
+  //   const userDevice = await this.userDevicesRepository.findOne(options);
+  //   return {
+  //     device: userDevice.device,
+  //     status: userDevice.status,
+  //     local: userDevice.location,
+  //   };
+  // }
 
-  // async getDevices(userId: number): Promise<Device[]> {
-  //   const userDevices = await this.userDevicesRepository
-  //     .createQueryBuilder('user_devices')
-  //     .where('user_devices.user_id = :userId', { userId })
-  //     .leftJoinAndSelect(
-  //       'user_devices.device',
-  //       'device',
-  //       'device._id = user_devices.device_id',
-  //     )
-  //     .getSql();
-  //   console.log(userDevices);
-  //   return userDevices.map((userDevice) => userDevice.device);
+  // async getDevices(
+  //   userId: number,
+  // ): Promise<{ device: Device; status: string; location: string }> {
+  //   const options: FindOneOptions<UserDevices> = {
+  //     where: { user_id: userId } as FindOneOptions<UserDevices>['where'],
+  //     relations: ['device', 'device.info'],
+  //   };
+  //   const userDevice = await this.userDevicesRepository.findOne(options);
+  //   return {
+  //     device: userDevice.device,
+  //     status: userDevice.status,
+  //     location: userDevice.location,
+  //   };
   // }
+
+  // async getDevices(
+  //   userId: number,
+  // ): Promise<Array<{ device: Device; status: string; location: string }>> {
+  //   const options: FindManyOptions<UserDevices> = {
+  //     where: { user_id: userId },
+  //     relations: ['device'],
+  //     join: {
+  //       alias: 'userDevices',
+  //       leftJoin: {
+  //         device: 'userDevices.device',
+  //       },
+  //     },
+  //   };
+  //   const userDevices = await this.userDevicesRepository.find(options);
+  //   console.log(userId);
+  //   return userDevices.map((userDevice) => {
+  //     return {
+  //       device: userDevice.device,
+  //       status: userDevice.status,
+  //       location: userDevice.location,
+  //     };
+  //   });
   // }
+
+  async getDevices(userId: number): Promise<UserDevices[] | undefined> {
+    return this.userDevicesRepository
+      .createQueryBuilder('user_devices')
+      .leftJoinAndSelect('user_devices.device', 'device')
+      .leftJoinAndSelect('device.info', 'info')
+      .where('user_devices.user_id = :userId', { userId: userId })
+      .getMany();
+  }
 }

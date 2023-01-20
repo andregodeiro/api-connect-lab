@@ -35,7 +35,7 @@ export class UsersController {
   @Get('devices')
   @UseGuards(AuthGuard('jwt'))
   async getDevices(@Req() req) {
-    const devices = await this.devicesService.getDevices(req.user.id);
+    const devices = await this.devicesService.getDevices(req.user.userId);
     return devices;
   }
 }
