@@ -100,12 +100,13 @@ export class DevicesService {
     return queryBuilder.getMany();
   }
 
-  async detailDevice(id: number): Promise<UserDevices> {
+  async detailDevice(id: number, userId: number): Promise<UserDevices> {
     return await this.userDevicesRepository
       .createQueryBuilder('user_devices')
       .leftJoinAndSelect('user_devices.device', 'device')
       .leftJoinAndSelect('device.info', 'info')
       .where('user_devices.id = :id', { id })
+      .andWhere('user_devices.user_id = :userId', { userId })
       .getOne();
   }
 }

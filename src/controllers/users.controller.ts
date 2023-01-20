@@ -53,7 +53,7 @@ export class UsersController {
 
   @Get('devices/:id')
   @UseGuards(AuthGuard('jwt'))
-  async detailDevice(@Param('id') id: number) {
-    return this.devicesService.detailDevice(id);
+  async detailDevice(@Req() req, @Param('id') id: number) {
+    return this.devicesService.detailDevice(id, req.user.userId);
   }
 }
