@@ -9,6 +9,7 @@
 - [Resquisitos da aplicação](#-requisitos-da-aplicação)
 - [Estrutura](#-estrutura)
 - [Instalação](#-instalação)
+- [Endpoints Disponíveis](#-endpoints-disponíveis)
 
 ## 💾 Descrição do projeto
 
@@ -89,7 +90,7 @@ connect-lab/
 - Existe um aquivo de exemplo na raiz do projeto nomeado de `.example.env`, que deve ser levado como base para a criação do arquivo .env utilizado na aplicação;
 
 
-## 💻 Endpoints Disponíveis
+## 📍 Endpoints Disponíveis
 
 ### Criar um usuário:
 
