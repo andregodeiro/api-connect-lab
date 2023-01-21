@@ -167,6 +167,22 @@ Header: Authorization Bearer token
 }
 ```
 
+### Criar um dispositivo:
+
+```
+POST: http://localhost:3000/devices
+
+Body: {
+    "ip_address": "127.0.0.1",
+    "mac_address": "127.0.0.1",
+    "signal": "-40dBm",
+    "name": "Fechadura digital de pressão",
+    "type": "Controle de Acesso",
+    "madeBy": "Intelbras",
+    "photoUrl": "https://intelbras.vteximg.com.br/arquivos/ids/155438-800-800/B07BRXHLKM.MAIN.PNG.png?v=637006996608600000"
+  }
+```
+
 ### Buscar lista de dispositivos:
 
 ```
