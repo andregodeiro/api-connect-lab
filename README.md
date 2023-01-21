@@ -87,3 +87,250 @@ connect-lab/
 - Rodar a aplicação com `npm run start:dev`;
 - Esse aplicativo requer, **excepcionalmente**, um arquivo `.env`, que deve ser inserido na raiz do projeto (`./connect-lab`); 
 - Existe um aquivo de exemplo na raiz do projeto nomeado de `.example.env`, que deve ser levado como base para a criação do arquivo .env utilizado na aplicação;
+
+
+## 💻 Endpoints Disponíveis
+
+### Criar um usuário:
+
+```
+POST: http://localhost:3000/users
+
+Body: {
+  "fullName": "John Doe",
+  "email": "johndoe@email.com",
+  "password": "john12345",
+  "confirmPassword":"john12345",
+  "zipCode":"12341234",
+  "street":"Endereco da rua",
+  "number":"123",
+  "neighborhood":"Bairro",
+  "city":"Cidade",
+  "state":"UF"
+}
+```
+
+### Efetuar Login:
+
+```
+POST: http://localhost:3000/auth/login
+
+Body: {
+	"email": "johndoe@email.com",
+	"password": "john12345"
+}
+```
+
+### Alterar Senha:
+
+```
+POST: localhost:3000/users/change-password
+
+Header: Authorization Bearer token
+
+Body: {
+	"email": "johndoe@email.com",
+	"oldPassword": "john12345",
+	"newPassword": "john1234",
+	"newPasswordConfirm": "john1234"
+}
+```
+
+### Perfil do usuário:
+
+```
+GET: http://localhost:3000/users/profile
+
+Header: Authorization Bearer token
+```
+
+**Resultado:**
+
+```
+{
+	"id": 5,
+	"fullName": "Huany Godeiro",
+	"photoUrl": "default.jpg",
+	"email": "huany@email.com",
+	"phone": "N/A",
+	"address": {
+		"id": 4,
+		"zipCode": "12341234",
+		"street": "Endereco da rua",
+		"number": "123",
+		"neighborhood": "Bairro",
+		"city": "Cidade",
+		"state": "UF",
+		"complement": null
+	}
+}
+```
+
+### Buscar lista de dispositivos:
+
+```
+GET: http://localhost:3000/devices
+
+```
+
+**Resultado:**
+
+```
+[
+	{
+		"name": "Interruptor conector inteligente",
+		"type": "Energia",
+		"madeBy": "Intelbras",
+		"photoUrl": "https://intelbras.vteximg.com.br/arquivos/ids/161376-1000-1000/ews_301_front_cima.jpg?v=637581675693070000",
+		"info": {
+			"virtual_id": 1,
+			"ip_address": "127.0.0.1",
+			"mac_address": "127.0.0.1",
+			"signal": "-40dBm"
+		}
+	},
+	{
+		"name": "Lâmpada LED",
+		"type": "Energia",
+		"madeBy": "Intelbras",
+		"photoUrl": "https://intelbras.vteximg.com.br/arquivos/ids/160115-1000-1000/ews_407_front_cor.jpg?v=637564221001370000",
+		"info": {
+			"virtual_id": 2,
+			"ip_address": "127.0.0.1",
+			"mac_address": "127.0.0.1",
+			"signal": "-70dBm"
+		}
+	},
+	{
+		"name": "Interruptor conector inteligente",
+		"type": "Energia",
+		"madeBy": "Intelbras",
+		"photoUrl": "https://intelbras.vteximg.com.br/arquivos/ids/161376-1000-1000/ews_301_front_cima.jpg?v=637581675693070000",
+		"info": {
+			"virtual_id": 3,
+			"ip_address": "127.0.0.1",
+			"mac_address": "127.0.0.1",
+			"signal": "-40dBm"
+		}
+	},
+]
+```
+
+### Buscar dispositivo por ID:
+
+```
+GET: http://localhost:3000/devices/:id
+
+```
+
+**Resultado:**
+
+```
+{
+	"name": "Hub de automação",
+	"type": "Segurança eletrônica",
+	"madeBy": "Intelbras",
+	"photoUrl": "https://intelbras.vteximg.com.br/arquivos/ids/165090-800-800/ICA_1001_pers_esq.png?v=637910746484730000",
+	"info": {
+		"virtual_id": 10,
+		"ip_address": "127.0.0.1",
+		"mac_address": "127.0.0.1",
+		"signal": "-40dBm"
+	}
+}
+```
+
+### Adicionar dispositivo ao usuário:
+
+```
+POST: http://localhost:3000/devices/link
+
+Header: Authorization Bearer token
+
+Body:  {
+    "deviceId": 21,
+    "userId": 5,
+    "location": "Sala",
+    "status": "Ligado"
+}
+```
+
+### Buscar dispositivos vinculados ao usuário:
+
+```
+GET: http://localhost:3000/users/devices
+
+Header: Authorization Bearer token
+```
+
+**Resultado:**
+
+```
+[
+	{
+		"id": 6,
+		"location": "Corredor",
+		"status": "Ligado",
+		"device": {
+			"name": "Interruptor conector inteligente",
+			"type": "Energia",
+			"madeBy": "Intelbras",
+			"photoUrl": "https://intelbras.vteximg.com.br/arquivos/ids/161376-1000-1000/ews_301_front_cima.jpg?v=637581675693070000",
+			"info": {
+				"virtual_id": 1,
+				"ip_address": "127.0.0.1",
+				"mac_address": "127.0.0.1",
+				"signal": "-40dBm"
+			}
+		}
+	},
+	{
+		"id": 7,
+		"location": "Corredor",
+		"status": "Ligado",
+		"device": {
+			"name": "Interruptor inteligente soquete",
+			"type": "Energia",
+			"madeBy": "Intelbras",
+			"photoUrl": "https://intelbras.vteximg.com.br/arquivos/ids/160121-800-800/ews_400_front2.jpg?v=637564240561700000",
+			"info": {
+				"virtual_id": 4,
+				"ip_address": "127.0.0.1",
+				"mac_address": "127.0.0.1",
+				"signal": "-80dBm"
+			}
+		}
+	},
+]
+```
+
+### Buscar dispositivo do usuário:
+
+```
+GET: http://localhost:3000/users/device/:id
+
+Header: Authorization Bearer token
+```
+
+**Resultado:**
+
+```
+{
+	"id": 6,
+	"location": "Corredor",
+	"status": "Ligado",
+	"device": {
+		"name": "Interruptor conector inteligente",
+		"type": "Energia",
+		"madeBy": "Intelbras",
+		"photoUrl": "https://intelbras.vteximg.com.br/arquivos/ids/161376-1000-1000/ews_301_front_cima.jpg?v=637581675693070000",
+		"info": {
+			"virtual_id": 1,
+			"ip_address": "127.0.0.1",
+			"mac_address": "127.0.0.1",
+			"signal": "-40dBm"
+		}
+	}
+}
+```
+
