@@ -35,6 +35,7 @@ export class AuthService {
       fullName: user.fullName,
       photoUrl: user.photoUrl,
       email: user.email,
+      password: user.password,
     };
     return jwt.sign(payload, process.env.JWT_SECRET);
   }

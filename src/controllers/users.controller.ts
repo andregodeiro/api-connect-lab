@@ -12,9 +12,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from '../services/authentication.service';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
-import { ChangePasswordDto } from '../dto/chage-password.dto';
+import { ChangePasswordDto } from '../dto/change-password.dto';
 import { DevicesService } from 'src/services/devices.service';
-
 @Controller('users')
 export class UsersController {
   constructor(
@@ -35,10 +34,15 @@ export class UsersController {
     return user;
   }
 
-  @UseGuards(AuthGuard('jwt'))
   @Post('change-password')
-  async changePassword(@Body() changePasswordDto: ChangePasswordDto) {
-    return await this.userService.changePassword(changePasswordDto);
+  @UseGuards(AuthGuard('jwt'))
+  async changePassword(
+    @Body() changePasswordDto: ChangePasswordDto,
+    @Req() req,
+  ) {
+    const payload = req.user;
+
+    return await this.userService.changePassword(changePasswordDto, payload);
   }
 
   @Get('devices')

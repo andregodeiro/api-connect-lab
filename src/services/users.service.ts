@@ -1,10 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, FindOneOptions } from 'typeorm';
+import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { Address } from '../entities/user-address.entity';
 import { CreateUserDto } from '../dto/create-user.dto';
-import { ChangePasswordDto } from '../dto/chage-password.dto';
+import { ChangePasswordDto } from '../dto/change-password.dto';
 import * as bcrypt from 'bcrypt';
 import { validate } from 'class-validator';
 import { UserDevices } from 'src/entities/user-devices.entity';
@@ -59,20 +59,18 @@ export class UsersService {
     return 'Usuário criado com sucesso!';
   }
 
-  async changePassword(changePasswordDto: ChangePasswordDto): Promise<void> {
-    const { email, oldPassword, newPassword, newPasswordConfirm } =
-      changePasswordDto;
+  async changePassword(
+    changePasswordDto: ChangePasswordDto,
+    payload: any,
+  ): Promise<void> {
+    const { email, oldPassword } = payload;
+    const { newPassword, newPasswordConfirm } = changePasswordDto;
 
-    // checa se o e-mail existe no db
-    const options: FindOneOptions = {
-      where: {
-        email: email,
-      },
-    };
-    const user = await this.userRepository.findOne(options);
+    const user = await this.userRepository.findOne({ where: { email } });
 
-    // checa se a senha confere no db
+    console.log('old: ', oldPassword, 'new: ', user.password);
     const isPasswordMatched = await bcrypt.compare(oldPassword, user.password);
+
     if (!isPasswordMatched) {
       throw new HttpException(
         'Sua senha antiga não confere!',
@@ -80,7 +78,6 @@ export class UsersService {
       );
     }
 
-    // checa se a senha nova confere com a confirmação de senha
     if (newPassword !== newPasswordConfirm) {
       throw new HttpException(
         'A nova senha não confere!',
@@ -88,10 +85,7 @@ export class UsersService {
       );
     }
 
-    // hash newPassword
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-
-    // atualiza a senha no db
     await this.userRepository.update(
       { email },
       { password: hashedNewPassword },
