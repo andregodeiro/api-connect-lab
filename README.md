@@ -351,3 +351,10 @@ Header: Authorization Bearer token
 }
 ```
 
+### Deletar dispositivo do usuário:
+
+```
+DELETE: http://localhost:3000/devices/user/:id
+
+Header: Authorization Bearer token
+```
